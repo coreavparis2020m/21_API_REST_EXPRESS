@@ -22,12 +22,38 @@ app.get('/:id', (req, res) => {
 })
 
 app.post('/', (req, res) => {
-    clientes.push(req.body);
+    
+    let cliente = req.body;
+    cliente.id = clientes[clientes.length - 1].id + 1;
+
+    clientes.push(cliente);
+
     res.status(200).json({
         mensaje: 'El cliente se ha creado correctamente'
     })
 })
 
+app.put('/:id', (req, res) => {
+
+    let posicion = clientes.findIndex(elem => {
+        return elem.id == req.params.id;
+    })
+
+    if (posicion < 0) {
+        res.status(200).json({
+            mensaje: 'No se encontró el cliente'
+        })
+    } else {
+        clientes[posicion].nombre = req.body.nombre;
+        clientes[posicion].cif = req.body.cif;
+        clientes[posicion].domicilio = req.body.domicilio;
+
+        res.status(200).json({
+            mensaje: 'El cliente se ha actualizado correctamente'
+        })
+    }
+
+})
 
 
 
