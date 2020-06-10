@@ -55,9 +55,25 @@ app.put('/:id', (req, res) => {
 
 })
 
+app.delete('/:id', (req, res) => {
 
+    let posicion = clientes.findIndex(elem => {
+        return elem.id == req.params.id;
+    })
 
+    if (posicion < 0) {
+        res.status(200).json({
+            mensaje: 'No se encontró el cliente'
+        })
+    } else {
+        clientes.splice(posicion, 1);
 
+        res.status(200).json({
+            mensaje: 'El cliente se ha eliminado correctamente'
+        })
+    }
+
+})
 
 app.listen(3000, () => {
     console.log('Servidor escuchando en http://localhost:3000');
